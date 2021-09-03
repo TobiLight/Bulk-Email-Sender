@@ -5,10 +5,6 @@ import axios from 'axios'
 
 type Error = string
 type Success = string
-// interface IFormProps {
-//     email: Email,
-//     setEmail: React.Dispatch<React.SetStateAction<Email>>
-// }
 interface ButtonProps {
     btnText: string
     btnClass: string

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import NavBar from "./components/common/NavBar";
 import Form from "./components/Form";
 
@@ -12,13 +11,6 @@ export interface Email {
 }
 
 function App() {
-  const [email, setEmail] = useState<Email>({
-    recipients: "",
-    subject: "",
-    body: ""
-  })
-
-
   return (
     <>
       <NavBar />
