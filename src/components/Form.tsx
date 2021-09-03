@@ -1,27 +1,39 @@
 import React, { useState, VFC } from "react";
-import FormButton from "./common/form/FormButton"
 import { Email } from "../App";
+import axios from 'axios'
+
 
 type Error = string
 type Success = string
-interface IFormProps {
-    email: Email,
-    setEmail: React.Dispatch<React.SetStateAction<Email>>
+// interface IFormProps {
+//     email: Email,
+//     setEmail: React.Dispatch<React.SetStateAction<Email>>
+// }
+interface ButtonProps {
+    btnText: string
+    btnClass: string
 }
 
 
-const Form: VFC<IFormProps> = ({ email, setEmail }): JSX.Element => {
+const Form: VFC = (): JSX.Element => {
     const [error, setError] = useState<Error>("")
     const [success, setSuccess] = useState<Success>("")
+    const [btnProps, setBtnProps] = useState<ButtonProps>({
+        btnText: "Send email", btnClass: "mb-3 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-sm w-full"
+    })
     const [input, setInput] = useState<Email>({
-        recipients: [],
+        recipients: "",
         subject: "",
         body: ""
     })
-    const [recipients, setRecipients] = useState("")
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setError("")
-        setInput({ ...input, [event.currentTarget.name]: event.currentTarget.value })
+        if (event.currentTarget.name === 'recipients') {
+            setInput({ ...input, recipients: event.currentTarget.value })
+        }
+        if (event.currentTarget.name === 'subject') {
+            setInput({ ...input, subject: event.currentTarget.value })
+        }
     }
 
     const handleTextInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -35,9 +47,13 @@ const Form: VFC<IFormProps> = ({ email, setEmail }): JSX.Element => {
             setError("You need to fill in all the fields boss!")
             return
         }
-        setEmail({ ...email, recipients: input.recipients, subject: input.subject, body: input.body })
-        setInput({ recipients: "" || [], subject: "", body: "" })
-        setSuccess("Your message has been sent! 👍")
+        setBtnProps({ ...btnProps, btnText: "Sending...⌛", btnClass: "mb-3 bg-purple-400 opacity-50 cursor-not-allowed text-white p-2 rounded-sm w-full" })
+        axios.post("http://localhost:1017/send", input).then(data => setSuccess(data.data.message)).catch(err => setError(err.response.data.message))
+        setInput({ recipients: "", subject: "", body: "" })
+        setBtnProps({
+            ...btnProps,
+            btnText: "Send email", btnClass: "mb-3 bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-sm w-full"
+        })
     }
 
     return (
@@ -78,7 +94,7 @@ const Form: VFC<IFormProps> = ({ email, setEmail }): JSX.Element => {
                         className="w-full p-3 border border-gray-300 focus:outline-none rounded" placeholder="Hello world" value={input.body}
                     ></textarea>
                 </div>
-                <FormButton handleClick={handleclick} class="bg-purple-600 hover:bg-purple-700 text-white p-2 rounded-sm w-full" />
+                <button onClick={handleclick} className={btnProps.btnClass}>{btnProps.btnText}</button>
             </form>
             <p className="text-green-600 font-semibold text-md">{success}</p>
         </div>

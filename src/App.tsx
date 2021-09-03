@@ -2,7 +2,7 @@ import { useState } from "react";
 import NavBar from "./components/common/NavBar";
 import Form from "./components/Form";
 
-export type Recipients = string[]
+export type Recipients = string
 export type Subject = string
 export type Body = string
 export interface Email {
@@ -12,16 +12,17 @@ export interface Email {
 }
 
 function App() {
-
   const [email, setEmail] = useState<Email>({
-    recipients: [""],
+    recipients: "",
     subject: "",
     body: ""
   })
+
+
   return (
     <>
       <NavBar />
-      <Form email={email} setEmail={setEmail} />
+      <Form />
     </>
   );
 }
