@@ -1,1 +1,3 @@
-# Bulk-Email-Sender
+# Bulk Email Sender
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
