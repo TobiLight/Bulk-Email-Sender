@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const logger = require("morgan");
 const { BulkMailer } = require("./bulkmailer");
+const config = require("./config");
 
 if (app.get("env") === "production") {
   app.set("trust proxy", 1);
@@ -55,6 +56,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(config.port, () => {
   console.log("Bulk email server is now running!");
 });

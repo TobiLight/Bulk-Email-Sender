@@ -1,10 +1,11 @@
 const nodemailer = require("nodemailer");
 const mg = require("mailgun-js");
+const config = require("./config");
 
 exports.BulkMailer = () => {
   const mailgunAuth = {
-    apiKey: process.env.apiKey,
-    domain: process.env.domain,
+    apiKey: config.apiKey,
+    domain: config.domain,
   };
   const transport = mg(mailgunAuth);
 
