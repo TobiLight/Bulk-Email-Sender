@@ -1,7 +1,7 @@
-require("dotenv").config();
+yrequire("dotenv").config();
 const express = require("express");
-const app = express();
 const logger = require("morgan");
+const app = express();
 const { BulkMailer } = require("./bulkmailer");
 const config = require("./config");
 
